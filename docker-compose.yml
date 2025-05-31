@@ -1,0 +1,6 @@
+services:
+  myapi_pensiones:
+    image: ${DOCKER_REGISTRY-}myapipensiones
+    build:
+      context: .
+      dockerfile: myapi_pensiones/Dockerfile
