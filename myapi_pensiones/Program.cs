@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using myapi_pensiones.Controllers;
+
 namespace myapi_pensiones
 {
     public class Program
@@ -14,19 +17,37 @@ namespace myapi_pensiones
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+             // Add the database 
+            builder.Services.AddDbContext<ContextDB>(options =>
+            options.UseMySql(
+            builder.Configuration.GetConnectionString("Connection_mysql"),
+            ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Connection_mysql"))));
+
+            // Configure Entity Framework Core with MySQL
+            builder.Services.AddCors(options => {
+                options.AddPolicy("AllowAll",
+                    policy => policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+            
+            // Habilitar el caché de respuestas
+            builder.Services.AddResponseCaching();
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+              // Configure the HTTP request pipeline.
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json","API v1");
+                c.RoutePrefix = "swagger"; 
+            });
 
-            app.UseHttpsRedirection();
+            app.UseResponseCaching();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

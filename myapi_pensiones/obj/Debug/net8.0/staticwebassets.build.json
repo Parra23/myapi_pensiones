@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "nIm+Q3s+CrcFx1+MYPjsLXNzDzQaQyj9N3w93UTtuRc=",
+  "Source": "myapi_pensiones",
+  "BasePath": "_content/myapi_pensiones",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
