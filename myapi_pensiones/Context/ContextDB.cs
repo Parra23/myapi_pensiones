@@ -13,5 +13,10 @@ namespace myapi_pensiones.Controllers
         public DbSet<Departamentos> Departamentos { get; set; }
         public DbSet<v_ciudades> v_ciudades { get; set; }
         public DbSet<v_pensiones> v_pensiones { get; set; }
+        public DbSet<v_resenas> v_resenas { get; set; }
+        public DbSet<v_habitaciones> v_habitaciones { get; set; }
+        public DbSet<v_imagenes> v_imagenes { get; set; }
+        public DbSet<Servicios> Servicios { get; set; }
+        public DbSet<v_pension_servicios> v_pension_servicios { get; set; }
     }
 }
