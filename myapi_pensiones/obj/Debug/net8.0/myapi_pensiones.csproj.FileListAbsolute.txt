@@ -111,3 +111,4 @@ C:\Users\jparr\OneDrive - cecar.edu.co\Documentos\Trabajos\Jhon Móvil\3) - Api\
 C:\Users\jparr\OneDrive - cecar.edu.co\Documentos\Trabajos\Jhon Móvil\3) - Api\myapi_pensiones\myapi_pensiones\obj\Debug\net8.0\myapi_pensiones.pdb
 C:\Users\jparr\OneDrive - cecar.edu.co\Documentos\Trabajos\Jhon Móvil\3) - Api\myapi_pensiones\myapi_pensiones\obj\Debug\net8.0\myapi_pensiones.genruntimeconfig.cache
 C:\Users\jparr\OneDrive - cecar.edu.co\Documentos\Trabajos\Jhon Móvil\3) - Api\myapi_pensiones\myapi_pensiones\obj\Debug\net8.0\ref\myapi_pensiones.dll
+C:\Users\jparr\OneDrive - cecar.edu.co\Documentos\Trabajos\Jhon Móvil\3) - Api\myapi_pensiones\myapi_pensiones\obj\Debug\net8.0\myapi_pensiones.sourcelink.json

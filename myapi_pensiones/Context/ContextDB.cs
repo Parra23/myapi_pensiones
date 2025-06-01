@@ -12,5 +12,6 @@ namespace myapi_pensiones.Controllers
         public DbSet<estados_pago> estados_pagos { get; set; }
         public DbSet<Departamentos> Departamentos { get; set; }
         public DbSet<v_ciudades> v_ciudades { get; set; }
+        public DbSet<v_pensiones> v_pensiones { get; set; }
     }
 }
