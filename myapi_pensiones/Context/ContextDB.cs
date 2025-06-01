@@ -18,5 +18,24 @@ namespace myapi_pensiones.Controllers
         public DbSet<v_imagenes> v_imagenes { get; set; }
         public DbSet<Servicios> Servicios { get; set; }
         public DbSet<v_pension_servicios> v_pension_servicios { get; set; }
+        public DbSet<v_habitacion_servicio> v_habitacion_servicio { get; set; }
+        public DbSet<v_reservas> v_reservas { get; set; }
+        public DbSet<v_pagos> v_pagos { get; set; }
+        public DbSet<v_total_datos> v_total_datos { get; set; }
+        public DbSet<v_totalu_rediarios> v_totalu_rediarios { get; set; }
+        public DbSet<v_acciones_auditoria_general> v_acciones_auditoria_general { get; set; }
+        public DbSet<v_total_datos_lineal> v_total_datos_lineal { get; set; }
+        public DbSet<auditoria_general> auditoria_general { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<v_pension_servicios>().HasNoKey();
+            modelBuilder.Entity<v_habitacion_servicio>().HasNoKey();
+            modelBuilder.Entity<v_total_datos>().HasNoKey();
+            modelBuilder.Entity<v_totalu_rediarios>().HasNoKey();
+            modelBuilder.Entity<v_acciones_auditoria_general>().HasNoKey();
+            modelBuilder.Entity<v_total_datos_lineal>().HasNoKey();
+            
+        }
     }
+
 }

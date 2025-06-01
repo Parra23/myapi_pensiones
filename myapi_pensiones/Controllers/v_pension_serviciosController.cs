@@ -70,20 +70,24 @@ namespace myapi_pensiones.Controllers
         }
 
 
-        //REVISAAAAAAAR
-        // DELETE: api/v_pension_servicios/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePensionServicio(int id)
+        // DELETE: api/v_pension_servicios/{id_pension}/{id_servicio}
+        [HttpDelete("{id_pension}/{id_servicio}")]
+        public async Task<IActionResult> DeletePensionServicio(int id_pension, int id_servicio)
         {
             try
             {
-                var pensionServicio = await _context.v_pension_servicios.FromSqlInterpolated($"CALL sp_obtener_pension_servicio_por_id({id})").ToListAsync();
+                var pensionServicio = await _context.v_pension_servicios
+                    .FromSqlInterpolated($"CALL sp_obtener_pension_servicio_por_ids({id_pension}, {id_servicio})")
+                    .ToListAsync();
+
                 if (pensionServicio == null || !pensionServicio.Any())
                 {
-                    return NotFound(new { message = $"Servicio de pensión con ID {id} no encontrado." });
+                    return NotFound(new { message = $"Servicio de pensión con ID pensión {id_pension} y servicio {id_servicio} no encontrado." });
                 }
 
-                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_eliminar_pension_servicio({id})");
+                await _context.Database.ExecuteSqlInterpolatedAsync(
+                    $"CALL sp_eliminar_pension_servicio({id_pension}, {id_servicio})"
+                );
                 return Ok(new { message = "Servicio de pensión eliminado correctamente." });
             }
             catch (Exception ex)
