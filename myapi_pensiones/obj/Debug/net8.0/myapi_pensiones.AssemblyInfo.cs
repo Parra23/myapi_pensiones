@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("myapi_pensiones")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+962bda53b205c1a52955b0ca311bc1fd1d8c0871")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92759dcab71afdff423f529f397acf5d0d090211")]
 [assembly: System.Reflection.AssemblyProductAttribute("myapi_pensiones")]
 [assembly: System.Reflection.AssemblyTitleAttribute("myapi_pensiones")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
