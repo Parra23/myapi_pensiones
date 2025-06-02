@@ -68,31 +68,6 @@ namespace myapi_pensiones.Controllers
             }
 
         }
-        // PUT: api/v_pension_servicios/{id_pension}/{id_servicio}
-        [HttpPut("{id_pension}/{id_servicio}")]
-        public async Task<IActionResult> PutPensionServicio(int id_pension, int id_servicio, int nuevo_id_servicio)
-        {
-            try
-            {
-                var pensionServicio = await _context.v_pension_servicios
-                    .FromSqlInterpolated($"CALL sp_actualizar_pension_servicio({id_pension}, {id_servicio}, {nuevo_id_servicio})")
-                    .ToListAsync();
-
-                if (pensionServicio == null || !pensionServicio.Any())
-                {
-                    return NotFound(new { message = $"Servicio de pensión con ID pensión {id_pension} y servicio {id_servicio} no encontrado." });
-                }
-
-                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_actualizar_pension_servicio({id_pension}, {id_servicio}, {nuevo_id_servicio})");
-                return Ok(new { message = "Servicio de pensión actualizado correctamente." });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = $"Error al actualizar el servicio de pensión: {ex.Message}" });
-            }
-        }
-
-
         // DELETE: api/v_pension_servicios/{id_pension}/{id_servicio}
         [HttpDelete("{id_pension}/{id_servicio}")]
         public async Task<IActionResult> DeletePensionServicio(int id_pension, int id_servicio)

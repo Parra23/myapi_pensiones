@@ -59,34 +59,25 @@ namespace myapi_pensiones.Controllers
                 return BadRequest(new { message = $"Error al crear el servicio de habitación: {ex.Message}" });
             }
         }
-        // PUT: api/v_habitacion_servicio/{id_habitacion}/{id_servicio}
-        [HttpPut("{id_habitacion}/{id_servicio}")]
-        public async Task<IActionResult> PutHabitacionServicio(int id_habitacion, int id_servicio, int nuevo_id_servicio)
+        
+        // DELETE: api/v_habitacion_servicio/{id_habitacion}/{id_servicio}
+        [HttpDelete("{id_habitacion}/{id_servicio}")]
+        public async Task<IActionResult> DeleteHabitacionServicio(int id_habitacion, int id_servicio)
         {
             try
             {
-                await _context.Database.ExecuteSqlInterpolatedAsync(
-                    $"CALL sp_actualizar_habitacion_servicio({id_habitacion}, {id_servicio}, {nuevo_id_servicio})"
-                );
-                return Ok(new { message = "Servicio de habitación actualizado exitosamente." });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = $"Error al actualizar el servicio de habitación: {ex.Message}" });
-            }
-        }
-        // DELETE: api/v_habitacion_servicio/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHabitacionServicio(int id)
-        {
-            try
-            {
-                var habitacionServicio = await _context.v_habitacion_servicio.FromSqlInterpolated($"CALL sp_obtener_servicios_por_habitacion({id})").ToListAsync();
-                if (habitacionServicio == null || !habitacionServicio.Any())
+                var habitacionServicio = await _context.v_habitacion_servicio
+                    .FromSqlInterpolated($"CALL sp_obtener_servicios_por_habitacion({id_habitacion})")
+                    .ToListAsync();
+
+                if (habitacionServicio == null || !habitacionServicio.Any(h => h.id_servicio == id_servicio))
                 {
-                    return NotFound(new { message = $"No se encontraron servicios para la habitación con ID {id}." });
+                    return NotFound(new { message = $"No se encontró el servicio {id_servicio} para la habitación con ID {id_habitacion}." });
                 }
-                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_eliminar_habitacion_servicio({id})");
+
+                await _context.Database.ExecuteSqlInterpolatedAsync(
+                    $"CALL sp_eliminar_habitacion_servicio({id_habitacion}, {id_servicio})"
+                );
                 return Ok(new { message = "Servicio de habitación eliminado exitosamente." });
             }
             catch (Exception ex)
