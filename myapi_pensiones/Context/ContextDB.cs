@@ -24,7 +24,7 @@ namespace myapi_pensiones.Controllers
         public DbSet<v_total_datos> v_total_datos { get; set; }
         public DbSet<v_totalu_rediarios> v_totalu_rediarios { get; set; }
         public DbSet<v_acciones_auditoria_general> v_acciones_auditoria_general { get; set; }
-        public DbSet<v_total_datos_lineal> v_total_datos_lineal { get; set; }
+        public DbSet<v_total_datos_barra> v_total_datos_barra { get; set; }
         public DbSet<auditoria_general> auditoria_general { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace myapi_pensiones.Controllers
             modelBuilder.Entity<v_total_datos>().HasNoKey();
             modelBuilder.Entity<v_totalu_rediarios>().HasNoKey();
             modelBuilder.Entity<v_acciones_auditoria_general>().HasNoKey();
-            modelBuilder.Entity<v_total_datos_lineal>().HasNoKey();
+            modelBuilder.Entity<v_total_datos_barra>().HasNoKey();
             
         }
     }
