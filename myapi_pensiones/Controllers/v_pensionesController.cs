@@ -113,5 +113,21 @@ namespace myapi_pensiones.Controllers
                 return BadRequest(new { message = $"Error al eliminar la pensión: {ex.Message}" });
             }
         }
+        // GET: api/v_pensiones/buscar
+        [HttpGet("buscar")]
+        public async Task<ActionResult<IEnumerable<v_pensiones>>> BuscarPensiones(string? nombre = null)
+        {
+            try
+            {
+                var pensiones = await _context.v_pensiones
+                    .FromSqlInterpolated($"CALL sp_buscar_pensiones({nombre ?? ""})")
+                    .ToListAsync();
+                return Ok(pensiones);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = $"Error al buscar pensiones: {ex.Message}" });
+            }
+        }
     }
 }
