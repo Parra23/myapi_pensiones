@@ -52,18 +52,32 @@ namespace myapi_pensiones.Controllers
                 return BadRequest(new { message = $"Error al obtener la habitación: {ex.Message}" });
             }
         }
+        // GET: api/v_habitaciones/habitaciones_pension/{id_pension}
+        [HttpGet("habitaciones_pension/{id_pension}")]
+        public async Task<ActionResult<IEnumerable<v_habitaciones>>> GetHabitacionesDisponibles(int id_pension)
+        {
+            try
+            {
+                var habitaciones = await _context.v_habitaciones.FromSqlInterpolated($"CALL sp_obtener_habitaciones_por_id_pension({id_pension})").ToListAsync();
+                return Ok(habitaciones);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = $"Error al obtener las habitaciones disponibles: {ex.Message}" });
+            }
+        }
         // POST: api/v_habitaciones
         [HttpPost]
         public async Task<IActionResult> PostHabitacion(v_habitaciones habitacion)
         {
             try
             {
-                if (habitacion == null || string.IsNullOrEmpty(habitacion.descripcion) || habitacion.capacidad <= 0 || habitacion.precio <= 0)
+                if (habitacion == null || string.IsNullOrEmpty(habitacion.descripcion) || habitacion.capacidad <= 0)
                 {
                     return BadRequest(new { message = "Datos de la habitación incompletos o inválidos." });
                 }
                 await _context.Database.ExecuteSqlInterpolatedAsync(
-                    $"CALL sp_agregar_habitacion({habitacion.id_pension}, {habitacion.descripcion}, {habitacion.capacidad}, {habitacion.precio}, {habitacion.estado_habitacion})"
+                    $"CALL sp_agregar_habitacion({habitacion.id_pension}, {habitacion.descripcion}, {habitacion.capacidad}, {habitacion.estado_habitacion})"
                 );
                 return Ok(new { message = "Habitación insertada correctamente." });
             }
@@ -83,13 +97,13 @@ namespace myapi_pensiones.Controllers
                     return BadRequest(new { message = "El ID de la habitación no coincide." });
                 }
 
-                if (habitacion == null || string.IsNullOrEmpty(habitacion.descripcion) || habitacion.capacidad <= 0 || habitacion.precio <= 0)
+                if (habitacion == null || string.IsNullOrEmpty(habitacion.descripcion) || habitacion.capacidad <= 0)
                 {
                     return BadRequest(new { message = "Datos de la habitación incompletos o inválidos." });
                 }
 
                 await _context.Database.ExecuteSqlInterpolatedAsync(
-                    $"CALL sp_actualizar_habitacion({habitacion.id_habitacion}, {habitacion.id_pension}, {habitacion.descripcion}, {habitacion.capacidad}, {habitacion.precio}, {habitacion.estado_habitacion})"
+                    $"CALL sp_actualizar_habitacion({habitacion.id_habitacion}, {habitacion.id_pension}, {habitacion.descripcion}, {habitacion.capacidad}, {habitacion.estado_habitacion})"
                 );
                 return Ok(new { message = "Habitación actualizada correctamente." });
             }
