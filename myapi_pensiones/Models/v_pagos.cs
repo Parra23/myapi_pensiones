@@ -11,6 +11,5 @@ public class v_pagos
 	public DateTime? fecha_pago { get; set; }
 	public int id_metodo_pago { get; set; }
 	public string? metodo_pago { get; set; }
-	public int id_estado_pago { get; set; }
 	public float? pendiente {get; set; }
 }

@@ -45,13 +45,13 @@ namespace myapi_pensiones.Controllers
         [HttpPost]
         public async Task<ActionResult<v_pagos>> Postv_pago(v_pagos v_pago)
         {
-            if (v_pago == null || v_pago.id_reserva <= 0 || v_pago.monto < 0 || v_pago.id_metodo_pago <= 0 || v_pago.id_estado_pago <= 0)
+            if (v_pago == null || v_pago.id_reserva <= 0 || v_pago.monto < 0 || v_pago.id_metodo_pago <= 0)
             {
                 return BadRequest(new { message = "Datos de pago no válidos." });
             }
             try
             {
-                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_agregar_pago({v_pago.id_reserva}, {v_pago.monto}, {v_pago.id_metodo_pago} ,{v_pago.id_estado_pago})");
+                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_agregar_pago({v_pago.id_reserva}, {v_pago.monto}, {v_pago.id_metodo_pago} )");
                 return Ok(new { message = "Pago creado exitosamente." });
             }
             catch (DbUpdateException ex)
@@ -69,11 +69,11 @@ namespace myapi_pensiones.Controllers
                 {
                     return BadRequest(new { message = "ID de pago no coincide." });
                 }
-                if (v_pago == null || v_pago.id_reserva <= 0 || v_pago.monto < 0 || v_pago.id_metodo_pago <= 0 || v_pago.id_estado_pago <= 0)
+                if (v_pago == null || v_pago.id_reserva <= 0 || v_pago.monto < 0 || v_pago.id_metodo_pago <= 0)
                 {
                     return BadRequest(new { message = "Datos de pago no válidos." });
                 }
-                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_actualizar_pago({v_pago.id_pago}, {v_pago.id_reserva}, {v_pago.monto}, {v_pago.id_metodo_pago}, {v_pago.id_estado_pago})");
+                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_actualizar_pago({v_pago.id_pago}, {v_pago.id_reserva}, {v_pago.monto}, {v_pago.id_metodo_pago})");
                 return Ok(new { message = "Pago actualizado exitosamente." });
             }
             catch (Exception ex)
