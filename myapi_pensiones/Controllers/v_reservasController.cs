@@ -38,6 +38,24 @@ namespace myapi_pensiones.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error al obtener la reserva: {ex.Message}");
             }
         }
+        // GET: api/v_reservas/reservas_usuario/{id_usuario}
+        [HttpGet("reservas_usuario/{id_usuario}")]
+        public async Task<ActionResult<IEnumerable<v_reservas>>> GetReservasPorUsuario(int id_usuario)
+        {
+            try
+            {
+                var reservas = await _context.v_reservas.FromSqlInterpolated($"CALL sp_obtener_reservas_por_usuario({id_usuario})").ToListAsync();
+                if (reservas == null || !reservas.Any())
+                {
+                    return NotFound(new { message = $"No se encontraron reservas para el usuario con ID {id_usuario}." });
+                }
+                return Ok(reservas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error al obtener las reservas: {ex.Message}");
+            }
+        }
         // POST: api/v_reservas
         [HttpPost]
         public async Task<IActionResult> Postv_reserva(v_reservas v_reserva)
