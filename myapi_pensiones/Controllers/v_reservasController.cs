@@ -56,6 +56,42 @@ namespace myapi_pensiones.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error al obtener las reservas: {ex.Message}");
             }
         }
+        // GET: api/v_reservas/reservas_habitacion/{id_habitacion}
+        [HttpGet("reservas_habitacion/{id_habitacion}")]
+        public async Task<ActionResult<IEnumerable<v_reservas>>> GetReservasPorHabitacion(int id_habitacion)
+        {
+            try
+            {
+                var reservas = await _context.v_reservas.FromSqlInterpolated($"CALL sp_obtener_reservas_por_habitacion({id_habitacion})").ToListAsync();
+                if (reservas == null || !reservas.Any())
+                {
+                    return NotFound(new { message = $"No se encontraron reservas para la habitación con ID {id_habitacion}." });
+                }
+                return Ok(reservas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error al obtener las reservas: {ex.Message}");
+            }
+        }
+        // PUT: api/v_reservas/cambiar_estado_reserva/{id}
+        [HttpPut("cambiar_estado_reserva/{id}")]
+        public async Task<IActionResult> CambiarEstadoReserva(int id, [FromBody] string nuevoEstado)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(nuevoEstado))
+                {
+                    return BadRequest(new { message = "El estado de la reserva no puede estar vacío." });
+                }
+                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_actualizar_estado_reserva({id}, {nuevoEstado})");
+                return Ok(new { message = "Estado de la reserva actualizado exitosamente." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error al cambiar el estado de la reserva: {ex.Message}");
+            }
+        }
         // POST: api/v_reservas
         [HttpPost]
         public async Task<IActionResult> Postv_reserva(v_reservas v_reserva)

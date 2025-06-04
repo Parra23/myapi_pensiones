@@ -70,6 +70,7 @@ namespace myapi_pensiones.Controllers
                 return BadRequest(new { message = $"Error al obtener las pensiones del propietario: {ex.Message}" });
             }
         }
+        
         // POST: api/v_pensiones
         [HttpPost]
         public async Task<IActionResult> PostPension(v_pensiones pension)
