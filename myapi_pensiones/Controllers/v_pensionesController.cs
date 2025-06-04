@@ -52,6 +52,24 @@ namespace myapi_pensiones.Controllers
                 return BadRequest(new { message = $"Error al obtener la pensión: {ex.Message}" });
             }
         }
+        // GET: api/v_pensiones/propietario/5
+        [HttpGet("propietario/{id}")]
+        public async Task<ActionResult<IEnumerable<v_pensiones>>> GetPensionesPorPropietario(int id)
+        {
+            try
+            {
+                var pensiones = await _context.v_pensiones.FromSqlInterpolated($"CALL obtener_pensiones_por_propietario({id})").ToListAsync();
+                if (pensiones == null || !pensiones.Any())
+                {
+                    return NotFound(new { message = $"No se encontraron pensiones para el propietario con ID {id}." });
+                }
+                return Ok(pensiones);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = $"Error al obtener las pensiones del propietario: {ex.Message}" });
+            }
+        }
         // POST: api/v_pensiones
         [HttpPost]
         public async Task<IActionResult> PostPension(v_pensiones pension)
