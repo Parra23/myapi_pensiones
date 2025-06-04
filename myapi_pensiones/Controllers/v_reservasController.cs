@@ -76,15 +76,17 @@ namespace myapi_pensiones.Controllers
         }
         // PUT: api/v_reservas/cambiar_estado_reserva/{id}
         [HttpPut("cambiar_estado_reserva/{id}")]
-        public async Task<IActionResult> CambiarEstadoReserva(int id, [FromBody] string nuevoEstado)
+        public async Task<IActionResult> CambiarEstadoReserva(int id, [FromBody] int nuevoEstado)
         {
             try
             {
-                if (string.IsNullOrEmpty(nuevoEstado))
+                if (nuevoEstado <= 0)
                 {
-                    return BadRequest(new { message = "El estado de la reserva no puede estar vacío." });
+                    return BadRequest(new { message = "El estado de la reserva no puede estar vacío o ser inválido." });
                 }
-                await _context.Database.ExecuteSqlInterpolatedAsync($"CALL sp_actualizar_estado_reserva({id}, {nuevoEstado})");
+                await _context.Database.ExecuteSqlInterpolatedAsync(
+                    $"CALL sp_actualizar_estado_reserva({id}, {nuevoEstado})"
+                );
                 return Ok(new { message = "Estado de la reserva actualizado exitosamente." });
             }
             catch (Exception ex)
