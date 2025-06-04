@@ -11,6 +11,5 @@ public class v_habitaciones
 	public string? descripcion { get; set; }
 	public int capacidad { get; set; }
 	public int estado_habitacion { get; set; }
-	public int? id_servicio { get; set; } 
-	public string? servicio { get; set; }
+	public int? sobreocupacion { get; set; }
 }

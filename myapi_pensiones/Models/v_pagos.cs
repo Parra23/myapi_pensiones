@@ -13,4 +13,5 @@ public class v_pagos
 	public string? metodo_pago { get; set; }
 	public int id_estado_pago { get; set; }
 	public string? estado_pago { get; set; }
+	public float? pendiente {get; set; }
 }
